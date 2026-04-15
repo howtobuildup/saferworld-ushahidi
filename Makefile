@@ -18,5 +18,8 @@ enter-api:
 build:
 	docker compose build
 
+build-client:
+	docker compose build client
+
 clean:
 	docker compose down -v --rmi local
