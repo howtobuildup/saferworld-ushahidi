@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_DATABASE:-ushahidi}
+      MARIADB_USER: ${DB_USERNAME:-ushahidi}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-ushahidi}
+      LANG: C.UTF_8
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_520_ci
+    ports:
+      - "33061:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:7.2-alpine
+
+  api:
+    extends:
+      file: ./platform/docker-compose.yml
+      service: platform
+    depends_on:
+      - mysql
+      - redis
+
+  worker:
+    extends:
+      file: ./platform/docker-compose.yml
+      service: platform_tasks
+    depends_on:
+      - mysql
+      - redis
+
+volumes:
+  mysql-data:
+  storage-app-public:
