@@ -1,0 +1,8 @@
+[submodule "platform"]
+	path = platform
+	url = git@github.com:howtobuildup/ushahidi-platform.git
+	branch = saferworld-somalia
+[submodule "platform-client-mzima"]
+	path = platform-client-mzima
+	url = git@github.com:howtobuildup/ushahidi-platform-client-mzima.git
+	branch = saferworld-somalia
