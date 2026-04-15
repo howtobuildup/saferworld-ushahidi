@@ -12,6 +12,10 @@ down:
 logs:
 	docker compose logs -f
 
+migrate:
+	docker compose exec api util wait_bootstrap
+	docker compose exec api util run_migrations
+
 enter-api:
 	docker compose exec api bash
 

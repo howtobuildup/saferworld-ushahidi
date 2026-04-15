@@ -50,10 +50,28 @@ BACKEND_URL=http://localhost:8080 npm run web:serve
 
 Client available at http://localhost:4200.
 
+### Run migrations
+
+```bash
+make migrate
+```
+
+### Default admin login
+
+After running migrations, a default admin account is seeded:
+
+| Field    | Value               |
+|----------|---------------------|
+| Email    | `admin@example.com` |
+| Password | `admin`             |
+
+The login uses an OAuth2 password grant against `POST /oauth/token`. The frontend client handles this automatically when you sign in through the UI at http://localhost:3000.
+
 ### Useful commands
 
 ```bash
 make logs        # tail all service logs
+make migrate     # run database migrations
 make enter-api   # shell into the API container
 make stop        # stop containers (preserves volumes)
 make down        # stop and remove containers
