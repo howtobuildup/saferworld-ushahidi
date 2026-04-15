@@ -20,3 +20,42 @@ Or if already cloned:
 ```bash
 git submodule update --init --recursive
 ```
+
+## Development
+
+### Backend
+
+Start the API, worker, database, and cache:
+
+```bash
+make start
+```
+
+Services:
+- API: http://localhost:8080
+- MySQL: localhost:33061
+
+### Frontend (hot reload, optional)
+
+For active frontend development, you can run the Angular dev server on the host instead of the client container. This gives hot reload without rebuilding the Docker image.
+
+Stop the client container and run the dev server:
+
+```bash
+docker compose stop client
+cd platform-client-mzima
+npm install
+BACKEND_URL=http://localhost:8080 npm run web:serve
+```
+
+Client available at http://localhost:4200.
+
+### Useful commands
+
+```bash
+make logs        # tail all service logs
+make enter-api   # shell into the API container
+make stop        # stop containers (preserves volumes)
+make down        # stop and remove containers
+make clean       # stop, remove containers, volumes, and locally built images
+```
