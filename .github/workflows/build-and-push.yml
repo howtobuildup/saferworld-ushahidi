@@ -47,3 +47,12 @@ jobs:
           build-args: |
             GIT_COMMIT_ID=${{ github.sha }}
             GIT_BUILD_REF=${{ github.ref_name }}
+
+      - name: Build and push Client image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./platform-client-mzima
+          push: true
+          tags: ghcr.io/howtobuildup/platform-client:${{ steps.tag.outputs.IMAGE_TAG }}
+          build-args: |
+            build_target=web:build
