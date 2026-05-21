@@ -1,0 +1,63 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: saferworld-api
+  namespace: saferworld
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: ushahidi-platform-api
+      version: ">=0.0.1-alpha.36"
+      sourceRef:
+        kind: HelmRepository
+        name: ushahidi
+      interval: 1h
+  values:
+    image:
+      repository: ghcr.io/howtobuildup
+      name: platform
+      tag: "0.1.0-rc.0000000" # {"$imagepolicy": "saferworld:platform-api:tag"}
+
+    config:
+      appenv: staging
+      timezone: UTC
+      db:
+        host: mysql
+        port: 3306
+        database: ushahidi
+        username: ushahidi
+        password: ushahidi
+      redis:
+        host: redis
+        port: 6379
+      drivers:
+        cache: redis
+        ratelimiter_cache: redis
+        queue: redis
+
+    api:
+      replicas: 1
+      debug: "False"
+      ingress:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        host: api.saferworld.phoenixplatformdev.xyz
+        tls:
+          - secretName: saferworld-api-tls
+            hosts:
+              - api.saferworld.phoenixplatformdev.xyz
+
+    worker:
+      replicas: 1
+
+    mysql:
+      enabled: true
+      persistence:
+        enabled: true
+        storageClass: ebs
+        size: 10Gi
+
+    redis:
+      enabled: true
