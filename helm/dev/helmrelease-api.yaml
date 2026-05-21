@@ -42,7 +42,7 @@ spec:
       ingress:
         enabled: true
         annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/issuer: letsencrypt-prod
         host: api.saferworld.phoenixplatformdev.xyz
         tls:
           - secretName: saferworld-api-tls
