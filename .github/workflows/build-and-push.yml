@@ -37,3 +37,13 @@ jobs:
             SHA_SHORT=$(git rev-parse --short HEAD)
             echo "IMAGE_TAG=0.${{ github.run_number }}.0-rc.${SHA_SHORT}" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./platform
+          push: true
+          tags: ghcr.io/howtobuildup/platform:${{ steps.tag.outputs.IMAGE_TAG }}
+          build-args: |
+            GIT_COMMIT_ID=${{ github.sha }}
+            GIT_BUILD_REF=${{ github.ref_name }}
