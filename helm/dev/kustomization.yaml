@@ -5,3 +5,7 @@ resources:
   - helmrepository.yaml
   - helmrelease-api.yaml
   - helmrelease-client.yaml
+  - imagerepository-api.yaml
+  - imagerepository-client.yaml
+  - imagepolicy-api.yaml
+  - imagepolicy-client.yaml
