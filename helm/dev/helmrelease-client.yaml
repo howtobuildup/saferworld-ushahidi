@@ -1,0 +1,32 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: saferworld-client
+  namespace: saferworld
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: ushahidi-platform-client
+      version: ">=0.0.1-alpha.17"
+      sourceRef:
+        kind: HelmRepository
+        name: ushahidi
+      interval: 1h
+  values:
+    image:
+      repository: ghcr.io/howtobuildup
+      name: platform-client
+      tag: "0.1.0-rc.0000000" # {"$imagepolicy": "saferworld:platform-client:tag"}
+
+    backend_url: https://api.saferworld.phoenixplatformdev.xyz
+
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/issuer: letsencrypt-prod
+      host: saferworld.phoenixplatformdev.xyz
+      tls:
+        - secretName: saferworld-client-tls
+          hosts:
+            - saferworld.phoenixplatformdev.xyz
