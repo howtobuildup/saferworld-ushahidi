@@ -17,7 +17,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform
-      tag: "0.4.0-rc.da22722" # {"$imagepolicy": "saferworld:platform-api:tag"}
+      tag: "0.7.0-rc.bf5d58a" # {"$imagepolicy": "saferworld:platform-api:tag"}
 
     config:
       appenv: staging
