@@ -17,8 +17,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform
-      tag: "0.7.0-rc.bf5d58a" # {"$imagepolicy": "saferworld:platform-api:tag"}
-
+      tag: "0.10.0-rc.e371b50" # {"$imagepolicy": "saferworld:platform-api:tag"}
     config:
       appenv: staging
       timezone: UTC
@@ -35,7 +34,6 @@ spec:
         cache: redis
         ratelimiter_cache: redis
         queue: redis
-
     api:
       replicas: 1
       debug: "False"
@@ -49,16 +47,13 @@ spec:
           - secretName: saferworld-api-tls
             hosts:
               - api.saferworld.phoenixplatformdev.xyz
-
     worker:
       replicas: 1
-
     mysql:
       enabled: true
       persistence:
         enabled: true
         storageClass: ebs
         size: 10Gi
-
     redis:
       enabled: true
