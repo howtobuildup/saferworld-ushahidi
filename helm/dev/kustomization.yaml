@@ -9,3 +9,4 @@ resources:
   - imagerepository-client.yaml
   - imagepolicy-api.yaml
   - imagepolicy-client.yaml
+  - imageupdateautomation.yaml
