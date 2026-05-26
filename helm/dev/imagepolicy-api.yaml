@@ -1,0 +1,14 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: platform-api
+  namespace: saferworld
+spec:
+  imageRepositoryRef:
+    name: platform-api
+  filterTags:
+    pattern: '^0\.\d+\.0-rc\.\w+$'
+    extract: '$0'
+  policy:
+    semver:
+      range: '>=0.0.1-0'

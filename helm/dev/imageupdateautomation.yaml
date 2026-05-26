@@ -1,0 +1,25 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageUpdateAutomation
+metadata:
+  name: saferworld
+  namespace: saferworld
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: saferworld-ushahidi
+    namespace: tooling
+  git:
+    checkout:
+      ref:
+        branch: dev
+    commit:
+      author:
+        email: fluxcd@howtobuildup.org
+        name: FluxCD
+      messageTemplate: "chore: update image tags"
+    push:
+      branch: dev
+  update:
+    path: ./helm/dev
+    strategy: Setters
