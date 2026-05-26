@@ -4,6 +4,8 @@ on:
   push:
     branches: [dev]
     tags: ['v*']
+    paths-ignore:
+      - 'helm/**'
 
 permissions:
   packages: write
