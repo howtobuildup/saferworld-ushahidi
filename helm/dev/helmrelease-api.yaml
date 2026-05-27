@@ -17,7 +17,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform
-      tag: "0.24.0-rc.b12be75" # {"$imagepolicy": "saferworld:platform-api:tag"}
+      tag: "0.26.0-rc.eb4a015" # {"$imagepolicy": "saferworld:platform-api:tag"}
     config:
       appenv: staging
       timezone: UTC
