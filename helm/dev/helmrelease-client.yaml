@@ -17,7 +17,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform-client
-      tag: "0.47.0-rc.ed0d9c3" # {"$imagepolicy": "saferworld:platform-client:tag"}
+      tag: "0.48.0-rc.3e67c9f" # {"$imagepolicy": "saferworld:platform-client:tag"}
     backend_url: https://api.saferworld.phoenixplatformdev.xyz
     ingress:
       enabled: true
