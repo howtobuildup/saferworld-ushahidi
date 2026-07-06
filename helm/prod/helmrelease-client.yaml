@@ -17,15 +17,15 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform-client
-      tag: "0.52.0-rc.e522d6a" # {"$imagepolicy": "saferworld:platform-client:tag"}
-    backend_url: https://api.saferworld.phoenixplatformdev.xyz
+      tag: "1.0.0"
+    backend_url: https://api.saferworld.phoenix.howtobuildup.org
     ingress:
       enabled: true
       annotations:
         cert-manager.io/issuer: letsencrypt-prod
         kubernetes.io/ingress.class: nginx
-      host: saferworld.phoenixplatformdev.xyz
+      host: saferworld.phoenix.howtobuildup.org
       tls:
         - secretName: saferworld-client-tls
           hosts:
-            - saferworld.phoenixplatformdev.xyz
+            - saferworld.phoenix.howtobuildup.org
