@@ -17,7 +17,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform-client
-      tag: "1.0.0"
+      tag: "1.0.1"
     backend_url: https://api.saferworld.phoenix.howtobuildup.org
     ingress:
       enabled: true
