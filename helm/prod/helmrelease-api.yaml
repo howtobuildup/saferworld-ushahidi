@@ -58,11 +58,11 @@ spec:
           nginx.ingress.kubernetes.io/proxy-body-size: "60m"
           nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
           nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
-        host: api.saferworld.phoenix.howtobuildup.org
+        host: api.app.saferworld-ogaal.org
         tls:
           - secretName: saferworld-api-tls
             hosts:
-              - api.saferworld.phoenix.howtobuildup.org
+              - api.app.saferworld-ogaal.org
     worker:
       replicas: 1
     mysql:
