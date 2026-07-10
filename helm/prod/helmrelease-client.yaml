@@ -18,14 +18,14 @@ spec:
       repository: ghcr.io/howtobuildup
       name: platform-client
       tag: "1.0.1"
-    backend_url: https://api.saferworld.phoenix.howtobuildup.org
+    backend_url: https://api.app.saferworld-ogaal.org
     ingress:
       enabled: true
       annotations:
         cert-manager.io/issuer: letsencrypt-prod
         kubernetes.io/ingress.class: nginx
-      host: saferworld.phoenix.howtobuildup.org
+      host: app.saferworld-ogaal.org
       tls:
         - secretName: saferworld-client-tls
           hosts:
-            - saferworld.phoenix.howtobuildup.org
+            - app.saferworld-ogaal.org
