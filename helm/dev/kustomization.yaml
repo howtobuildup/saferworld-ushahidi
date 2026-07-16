@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - issuer.yaml
   - helmrepository.yaml
+  - export-storage-pvc.yaml
   - helmrelease-api.yaml
   - helmrelease-client.yaml
   - imagerepository-api.yaml
