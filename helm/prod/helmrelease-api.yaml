@@ -5,6 +5,55 @@ metadata:
   namespace: saferworld
 spec:
   interval: 30m
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: api
+            patch: |
+              - op: add
+                path: /spec/template/spec/volumes
+                value:
+                  - name: export-storage
+                    persistentVolumeClaim:
+                      claimName: saferworld-export-storage
+              - op: add
+                path: /spec/template/spec/containers/0/volumeMounts
+                value:
+                  - name: export-storage
+                    mountPath: /var/www/storage/app/public
+          - target:
+              kind: Deployment
+              name: worker
+            patch: |
+              - op: add
+                path: /spec/template/spec/affinity
+                value:
+                  podAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                      - labelSelector:
+                          matchExpressions:
+                            - key: app
+                              operator: In
+                              values:
+                                - platform
+                            - key: service
+                              operator: In
+                              values:
+                                - api
+                        topologyKey: kubernetes.io/hostname
+              - op: add
+                path: /spec/template/spec/volumes
+                value:
+                  - name: export-storage
+                    persistentVolumeClaim:
+                      claimName: saferworld-export-storage
+              - op: add
+                path: /spec/template/spec/containers/0/volumeMounts
+                value:
+                  - name: export-storage
+                    mountPath: /var/www/storage/app/public
   chart:
     spec:
       chart: ushahidi-platform-api
