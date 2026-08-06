@@ -17,7 +17,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform-client
-      tag: "1.0.5"
+      tag: "1.0.6"
     backend_url: https://api.app.saferworld-ogaal.org
     ingress:
       enabled: true
