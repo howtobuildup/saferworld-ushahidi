@@ -18,6 +18,8 @@ spec:
       repository: ghcr.io/howtobuildup
       name: platform-client
       tag: "0.78.0-rc.6c7410c" # {"$imagepolicy": "saferworld:platform-client:tag"}
+    config:
+      mapbox_api_key: "pk.eyJ1IjoiaG93dG9idWlsZHVwIiwiYSI6ImNtdDMwcm5nYjA2cWQyeHM1Mjg1YWUwd2MifQ.YWE6-9w1Zk3FfhX32i5xbg"
     backend_url: https://api.saferworld.phoenixplatformdev.xyz
     ingress:
       enabled: true
