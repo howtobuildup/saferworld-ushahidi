@@ -5,4 +5,4 @@ metadata:
   namespace: saferworld
 spec:
   interval: 1h
-  url: https://github.ushahidi.org/helm-charts
+  url: https://howtobuildup.github.io/ushahidi-helm-charts
