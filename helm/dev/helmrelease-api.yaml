@@ -66,7 +66,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform
-      tag: "0.81.0-rc.e1bb31e" # {"$imagepolicy": "saferworld:platform-api:tag"}
+      tag: "0.84.0-rc.65b0f11" # {"$imagepolicy": "saferworld:platform-api:tag"}
     config:
       appenv: staging
       timezone: UTC
@@ -92,6 +92,10 @@ spec:
           cert-manager.io/issuer: letsencrypt-prod
           kubernetes.io/ingress.class: nginx
           nginx.ingress.kubernetes.io/proxy-body-size: "60m"
+          # nginx-ingress retries on error or timeout by default, which can
+          # replay a POST the client only sent once. That is the likeliest
+          # source of the duplicated CSV imports, so do not retry this API.
+          nginx.ingress.kubernetes.io/proxy-next-upstream: "off"
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
         host: api.saferworld.phoenixplatformdev.xyz
