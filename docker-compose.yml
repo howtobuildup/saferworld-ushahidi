@@ -33,6 +33,13 @@ services:
     depends_on:
       - mysql
       - redis
+    # The api service mounts the working tree, but platform_tasks only mounts
+    # storage, so the worker would run whatever code was baked into the image.
+    # Queued jobs then fail to unserialize any class added since the image was
+    # built. Mount the same tree so both containers run the same code.
+    volumes:
+      - storage-app-public:/var/www/storage/app/public
+      - ./platform:/var/www
 
   client:
     build:
