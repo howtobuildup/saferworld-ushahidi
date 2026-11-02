@@ -32,6 +32,15 @@ spec:
                   readOnlyRootFilesystem: false
           - target:
               kind: Deployment
+              name: crond
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: TASK_RUN_PERIOD_SECS
+                  value: "30"
+          - target:
+              kind: Deployment
               name: worker
             patch: |
               - op: add
