@@ -17,6 +17,7 @@ spec:
                   allowPrivilegeEscalation: false
                   capabilities:
                     drop: ["ALL"]
+                    add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
                   readOnlyRootFilesystem: false
   chart:
     spec:
