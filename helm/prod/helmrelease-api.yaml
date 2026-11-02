@@ -23,6 +23,13 @@ spec:
                 value:
                   - name: export-storage
                     mountPath: /var/www/storage/app/public
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                  readOnlyRootFilesystem: false
           - target:
               kind: Deployment
               name: worker
@@ -54,6 +61,24 @@ spec:
                 value:
                   - name: export-storage
                     mountPath: /var/www/storage/app/public
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                  readOnlyRootFilesystem: false
+          - target:
+              kind: Deployment
+              name: crond
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                  readOnlyRootFilesystem: false
   chart:
     spec:
       chart: ushahidi-platform-api

@@ -1,0 +1,173 @@
+# Default deny all ingress and egress for the saferworld namespace.
+# Subsequent policies open only the traffic the application needs.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: saferworld
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+# Allow DNS resolution for all pods (required for service discovery).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: saferworld
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+# Allow ingress controller to reach the API pods (port 8080).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-to-api
+  namespace: saferworld
+spec:
+  podSelector:
+    matchLabels:
+      app: platform
+      service: api
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8080
+---
+# Allow ingress controller to reach the client pods (port 8080).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-to-client
+  namespace: saferworld
+spec:
+  podSelector:
+    matchLabels:
+      app: platform
+      service: client
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8080
+---
+# API, worker, and crond pods can reach the external RDS MySQL (port 3306).
+# RDS is outside the cluster so we allow egress to any IP on this port.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-platform-to-mysql
+  namespace: saferworld
+spec:
+  podSelector:
+    matchLabels:
+      app: platform
+    matchExpressions:
+      - key: service
+        operator: In
+        values: [api, worker, crond]
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+        - protocol: TCP
+          port: 3306
+---
+# API, worker, and crond pods can reach Redis (in-cluster on port 6379).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-platform-to-redis
+  namespace: saferworld
+spec:
+  podSelector:
+    matchLabels:
+      app: platform
+    matchExpressions:
+      - key: service
+        operator: In
+        values: [api, worker, crond]
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: platform
+              service: redis
+      ports:
+        - protocol: TCP
+          port: 6379
+---
+# Redis accepts connections only from platform API/worker/crond pods.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-redis-ingress
+  namespace: saferworld
+spec:
+  podSelector:
+    matchLabels:
+      app: platform
+      service: redis
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: platform
+            matchExpressions:
+              - key: service
+                operator: In
+                values: [api, worker, crond]
+      ports:
+        - protocol: TCP
+          port: 6379
+---
+# API pods need outbound HTTPS for external services (mail, HDX, Sentry, etc.)
+# and SMTP ports for email delivery.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api-egress-external
+  namespace: saferworld
+spec:
+  podSelector:
+    matchLabels:
+      app: platform
+    matchExpressions:
+      - key: service
+        operator: In
+        values: [api, worker, crond]
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+        - protocol: TCP
+          port: 443
+        - protocol: TCP
+          port: 587
+        - protocol: TCP
+          port: 465

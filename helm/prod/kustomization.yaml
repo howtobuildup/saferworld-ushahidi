@@ -4,5 +4,6 @@ resources:
   - issuer.yaml
   - helmrepository.yaml
   - export-storage-pvc.yaml
+  - networkpolicy.yaml
   - helmrelease-api.yaml
   - helmrelease-client.yaml
