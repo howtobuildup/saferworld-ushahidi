@@ -5,6 +5,20 @@ metadata:
   namespace: saferworld
 spec:
   interval: 30m
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                    add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
+                  readOnlyRootFilesystem: false
   chart:
     spec:
       chart: ushahidi-platform-client

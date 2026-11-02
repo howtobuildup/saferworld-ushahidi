@@ -5,6 +5,20 @@ metadata:
   namespace: saferworld
 spec:
   interval: 5m
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                    add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
+                  readOnlyRootFilesystem: false
   chart:
     spec:
       chart: ushahidi-platform-client
@@ -17,7 +31,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform-client
-      tag: "0.111.0-rc.f09df9f" # {"$imagepolicy": "saferworld:platform-client:tag"}
+      tag: "0.114.0-rc.e664ba2" # {"$imagepolicy": "saferworld:platform-client:tag"}
     config:
       mapbox_api_key: "pk.eyJ1IjoiaG93dG9idWlsZHVwIiwiYSI6ImNtdDMwcm5nYjA2cWQyeHM1Mjg1YWUwd2MifQ.YWE6-9w1Zk3FfhX32i5xbg"
     backend_url: https://api.saferworld.phoenixplatformdev.xyz

@@ -23,6 +23,14 @@ spec:
                 value:
                   - name: export-storage
                     mountPath: /var/www/storage/app/public
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                    add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
+                  readOnlyRootFilesystem: false
           - target:
               kind: Deployment
               name: worker
@@ -54,6 +62,26 @@ spec:
                 value:
                   - name: export-storage
                     mountPath: /var/www/storage/app/public
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                    add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
+                  readOnlyRootFilesystem: false
+          - target:
+              kind: Deployment
+              name: crond
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext
+                value:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                    add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
+                  readOnlyRootFilesystem: false
   chart:
     spec:
       chart: ushahidi-platform-api
@@ -66,7 +94,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform
-      tag: "0.111.0-rc.f09df9f" # {"$imagepolicy": "saferworld:platform-api:tag"}
+      tag: "0.114.0-rc.e664ba2" # {"$imagepolicy": "saferworld:platform-api:tag"}
     config:
       appenv: staging
       timezone: UTC
