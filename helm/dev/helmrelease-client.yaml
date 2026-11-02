@@ -31,7 +31,7 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform-client
-      tag: "0.111.0-rc.f09df9f" # {"$imagepolicy": "saferworld:platform-client:tag"}
+      tag: "0.113.0-rc.13b47b0" # {"$imagepolicy": "saferworld:platform-client:tag"}
     config:
       mapbox_api_key: "pk.eyJ1IjoiaG93dG9idWlsZHVwIiwiYSI6ImNtdDMwcm5nYjA2cWQyeHM1Mjg1YWUwd2MifQ.YWE6-9w1Zk3FfhX32i5xbg"
     backend_url: https://api.saferworld.phoenixplatformdev.xyz
