@@ -24,4 +24,4 @@ spec:
                   external-dns.alpha.kubernetes.io/controller: ignore
       - http01:
           ingress:
-            ingressClassName: nginx
+            ingressClassName: nginx-f5
