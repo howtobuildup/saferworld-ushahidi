@@ -10,6 +10,18 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
+      - selector:
+          dnsNames:
+            - api.saferworld.phoenixplatformdev.xyz
+            - saferworld.phoenixplatformdev.xyz
+        http01:
+          ingress:
+            ingressClassName: nginx-f5
+            ingressTemplate:
+              metadata:
+                annotations:
+                  nginx.org/mergeable-ingress-type: minion
+                  external-dns.alpha.kubernetes.io/controller: ignore
       - http01:
           ingress:
-            ingressClassName: nginx
+            ingressClassName: nginx-f5

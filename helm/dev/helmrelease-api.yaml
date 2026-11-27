@@ -82,6 +82,17 @@ spec:
                     drop: ["ALL"]
                     add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
                   readOnlyRootFilesystem: false
+          # The background services each use their own existing Laravel key.
+          - target:
+              kind: Deployment
+              name: "worker|crond"
+            patch: |
+              - op: test
+                path: /spec/template/spec/containers/0/env/1/name
+                value: APP_KEY
+              - op: copy
+                from: /metadata/name
+                path: /spec/template/spec/containers/0/env/1/valueFrom/secretKeyRef/key
   chart:
     spec:
       chart: ushahidi-platform-api
@@ -94,9 +105,12 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform
-      tag: "0.114.0-rc.e664ba2" # {"$imagepolicy": "saferworld:platform-api:tag"}
+      tag: "0.118.0-rc.ac4e4e6" # {"$imagepolicy": "saferworld:platform-api:tag"}
     config:
       appenv: staging
+      appkey_secret:
+        name: saferworld-laravel-app-keys-r83
+        key: api
       timezone: UTC
       db:
         host: mysql
@@ -115,7 +129,7 @@ spec:
       replicas: 1
       debug: "False"
       ingress:
-        enabled: true
+        enabled: false
         annotations:
           cert-manager.io/issuer: letsencrypt-prod
           kubernetes.io/ingress.class: nginx

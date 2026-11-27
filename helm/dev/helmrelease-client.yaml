@@ -31,12 +31,12 @@ spec:
     image:
       repository: ghcr.io/howtobuildup
       name: platform-client
-      tag: "0.114.0-rc.e664ba2" # {"$imagepolicy": "saferworld:platform-client:tag"}
+      tag: "0.118.0-rc.ac4e4e6" # {"$imagepolicy": "saferworld:platform-client:tag"}
     config:
       mapbox_api_key: "pk.eyJ1IjoiaG93dG9idWlsZHVwIiwiYSI6ImNtdDMwcm5nYjA2cWQyeHM1Mjg1YWUwd2MifQ.YWE6-9w1Zk3FfhX32i5xbg"
     backend_url: https://api.saferworld.phoenixplatformdev.xyz
     ingress:
-      enabled: true
+      enabled: false
       annotations:
         cert-manager.io/issuer: letsencrypt-prod
         kubernetes.io/ingress.class: nginx
