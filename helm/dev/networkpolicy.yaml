@@ -46,6 +46,13 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: nginx-ingress
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: nginx-ingress
+              app.kubernetes.io/instance: nginx-ingress
       ports:
         - protocol: TCP
           port: 8080
@@ -68,9 +75,41 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: nginx-ingress
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: nginx-ingress
+              app.kubernetes.io/instance: nginx-ingress
       ports:
         - protocol: TCP
           port: 8080
+---
+# cert-manager serves HTTP-01 challenges on temporary solver pods.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-f5-to-http01-solver
+  namespace: saferworld
+spec:
+  podSelector:
+    matchLabels:
+      acme.cert-manager.io/http01-solver: "true"
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: nginx-ingress
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: nginx-ingress
+              app.kubernetes.io/instance: nginx-ingress
+      ports:
+        - protocol: TCP
+          port: 8089
 ---
 # API, worker, and crond pods can reach MySQL (port 3306).
 apiVersion: networking.k8s.io/v1
