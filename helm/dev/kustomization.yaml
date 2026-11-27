@@ -5,6 +5,7 @@ resources:
   - helmrepository.yaml
   - export-storage-pvc.yaml
   - networkpolicy.yaml
+  - f5-ingresses.yaml
   - helmrelease-api.yaml
   - helmrelease-client.yaml
   - imagerepository-api.yaml
