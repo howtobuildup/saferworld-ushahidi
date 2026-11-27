@@ -5,7 +5,7 @@ metadata:
   namespace: saferworld
   annotations:
     nginx.org/mergeable-ingress-type: master
-    external-dns.alpha.kubernetes.io/controller: ignore
+    cert-manager.io/issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx-f5
   tls:
@@ -48,7 +48,7 @@ metadata:
   namespace: saferworld
   annotations:
     nginx.org/mergeable-ingress-type: master
-    external-dns.alpha.kubernetes.io/controller: ignore
+    cert-manager.io/issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx-f5
   tls:
